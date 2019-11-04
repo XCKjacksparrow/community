@@ -7,9 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import per.xck.community.dto.AccessTokenDTO;
 import per.xck.community.dto.GithubUser;
+import per.xck.community.mapper.UserMapper;
+import per.xck.community.model.User;
 import per.xck.community.provider.GithubProvider;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.UUID;
 
 @Controller
 public class AuthorizeController {
@@ -19,16 +23,18 @@ public class AuthorizeController {
 
     @Value("${github.client.id}")
     private String clientId;
-
     @Value("${github.client.secret}")
     private String clientSecret;
-
     @Value("${gtihub.redirect.uri}")
     private String redirectUri;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code") String code,
-                           @RequestParam(name="state")  String state) throws IOException {
+                           @RequestParam(name="state")  String state,
+                            HttpServletRequest request) throws IOException {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
@@ -37,9 +43,22 @@ public class AuthorizeController {
         accessTokenDTO.setState(state);
 
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
-        GithubUser user = githubProvider.getUser(accessToken);
-        System.out.printf(user.getName());
-        return "index";
+        GithubUser githubUser = githubProvider.getUser(accessToken);
+        if(githubUser != null){
+            User user = new User();
+            user.setToken(UUID.randomUUID().toString());
+            user.setName(githubUser.getName());
+            user.setAccountId(String.valueOf(githubUser.getId()));
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
+            userMapper.insert(user);
+            // sign in successed
+            request.getSession().setAttribute("user",user);
+            return "redirect:/";
+        }else{
+            // sign in failed
+            return "redirect:/";
+        }
     }
 
 
