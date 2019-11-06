@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="dist/css/bootstrap.min.css" th:href="@{/dist/css/bootstrap.min.css}">
     <link rel="stylesheet" href="dist/css/bootstrap-theme.min.css" th:href="@{/dist/css/bootstrap-theme.min.css}">
+    <link rel="stylesheet" href="dist/css/community.css" th:href="@{/dist/css/community.css}">
     <script src="dist/jquery-3.3.1.js"></script>
     <script src="dist/js/bootstrap.js"></script>
 </head>
@@ -15,7 +16,7 @@
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Kazemi community</span>
             </button>
-            <a class="navbar-brand" href="#">Kazemi community</a>
+            <a class="navbar-brand" href="/">Kazemi community</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -44,5 +45,32 @@
         </div>
     </div>
 </nav>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-list" aria-hidden="true">Find</span></h2>
+            <hr>
+
+            <div class="media" th:each="question : ${questions}">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object img-rounded" th:src="${question.user.avatarUrl}">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <span th:text="${question.description}"></span>
+                    <span class="text-desc"><span th:text="${question.commentCount}"></span> replies·<span th:text="${question.viewCount}"></span> views·<span th:text="${#dates.format(question.gmtCreate,'dd MMMM yyyy')}"></span></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>Guide</h3>
+            <div>Titile: write you problem with precisely short words</div>
+            <div>Description: decribe you problems with straightforward contents, and adding some data</div>
+            <div>Tag: selcet muiltiple tags separated with semicolon</div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

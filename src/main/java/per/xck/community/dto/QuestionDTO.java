@@ -1,9 +1,10 @@
-package per.xck.community.model;
+package per.xck.community.dto;
 
 import lombok.Data;
+import per.xck.community.model.User;
 
 @Data
-public class Question {
+public class QuestionDTO {
     private Integer id;
     private String title;
     private String description;
@@ -14,4 +15,5 @@ public class Question {
     private Integer viewCount;
     private Integer commentCount;
     private Integer likeCount;
+    private User user;
 }

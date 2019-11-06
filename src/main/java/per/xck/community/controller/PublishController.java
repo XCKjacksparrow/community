@@ -51,16 +51,20 @@ public class PublishController {
         }
 
         User user = null;
-        Cookie[] cookies = request.getCookies();
-        for(Cookie cookie:cookies){
-            if(cookie.getName().equals("token")){
-                String token = cookie.getValue();
-                user = userMapper.findByToken(token);
-                if(user != null){
-                    request.getSession().setAttribute("user",user);
+        try{
+            Cookie[] cookies = request.getCookies();
+            for(Cookie cookie:cookies){
+                if(cookie.getName().equals("token")){
+                    String token = cookie.getValue();
+                    user = userMapper.findByToken(token);
+                    if(user != null){
+                        request.getSession().setAttribute("user",user);
+                    }
+                    break;
                 }
-                break;
             }
+        }catch (NullPointerException e){
+            System.out.println("user have not signed in");
         }
 
         if (user == null){
