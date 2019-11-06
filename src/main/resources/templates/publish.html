@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>kazemi community</title>
+    <title>publish -- kazemi community</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="dist/css/bootstrap.min.css" th:href="@{/dist/css/bootstrap.min.css}">
     <link rel="stylesheet" href="dist/css/bootstrap-theme.min.css" th:href="@{/dist/css/bootstrap-theme.min.css}">
+    <link rel="stylesheet" href="dist/css/community.css" th:href="@{/dist/css/community.css}">
     <script src="dist/jquery-3.3.1.js"></script>
     <script src="dist/js/bootstrap.js"></script>
 </head>
@@ -44,5 +45,37 @@
         </div>
     </div>
 </nav>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true">发起</span></h2>
+            <hr>
+
+            <form action="/publish" method="post">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="title" th:value="${title}">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" name="description" cols="30" rows="10" th:text="${description}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tag">Add Tags</label>
+                    <input type="text" class="form-control" id="tag" name="tag" placeholder="add tags separated with semicolon"  th:value="${tag}">
+                </div>
+
+                <span class="alert alert-danger" th:text="${error}" th:if="${error != null}"></span>
+                <button type="submit" class="btn btn-success btn-publish">Submit</button>
+            </form>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>Guide</h3>
+            <div>Titile: write you problem with precisely short words</div>
+            <div>Description: decribe you problems with straightforward contents, and adding some data</div>
+            <div>Tag: selcet muiltiple tags separated with semicolon</div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
