@@ -30,25 +30,11 @@ public class ProfileController {
                           @RequestParam(name = "page",defaultValue = "1") Integer page,
                           @RequestParam(name = "size",defaultValue = "5") Integer size){
 
-        User user = null;
+        User user = (User)request.getSession().getAttribute("user");
 
-        try{
-            Cookie[] cookies = request.getCookies();
-            for(Cookie cookie:cookies){
-                if(cookie.getName().equals("token")){
-                    String token = cookie.getValue();
-                    user = userMapper.findByToken(token);
-                    if(user != null){
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
-        }catch (NullPointerException e){
-            System.out.println("first access with no cookies");
+        if(user == null){
             return "redirect:/";
         }
-
         if("question".equals(action)){
             model.addAttribute("section","question");
             model.addAttribute("sectionName","My question");

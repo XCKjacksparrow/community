@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="dist/css/bootstrap.min.css" th:href="@{/dist/css/bootstrap.min.css}">
     <link rel="stylesheet" href="dist/css/bootstrap-theme.min.css" th:href="@{/dist/css/bootstrap-theme.min.css}">
     <link rel="stylesheet" href="dist/css/community.css" th:href="@{/dist/css/community.css}">
-    <script src="dist/jquery-3.3.1.js"></script>
-    <script src="dist/js/bootstrap.js"></script>
+    <script src="/dist/jquery-3.3.1.js"></script>
+    <script src="/dist/js/bootstrap.js"></script>
 </head>
 <body>
 <div th:insert="~{navigation :: nav}"></div>
@@ -19,6 +19,7 @@
             <hr>
 
             <form action="/publish" method="post">
+                <input type="hidden" name="id" th:value="${id}">
                 <div class="form-group">
                     <label for="title">Title</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="title" th:value="${title}">
