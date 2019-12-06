@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>kazemi community</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css" th:href="@{/dist/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="dist/css/bootstrap-theme.min.css" th:href="@{/dist/css/bootstrap-theme.min.css}">
+    <link rel="stylesheet" href="dist/css/community.css" th:href="@{/dist/css/community.css}">
+    <script src="/dist/jquery-3.3.1.js"></script>
+    <script src="/dist/js/bootstrap.js"></script>
+</head>
+<body>
+
+<div th:insert="~{navigation :: nav}"></div>
+<div class="row">
+    <div class="jumbotron">
+        <h1>出错啦！</h1>
+        <p th:text="${message}">...</p>
+        <p><a class="btn btn-primary btn-lg" href="/" role="button">回到主页</a></p>
+    </div>
+</div>
+</body>
+</html>
