@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 public class CustomizeExceptionHandler {
     
     @ExceptionHandler(Exception.class)
-    ModelAndView handle(HttpServletRequest request, Throwable e , Model model){
+    ModelAndView handle(Throwable e, Model model){
         if (e instanceof CustomizeException){
             model.addAttribute("message",e.getMessage());
         }else {
