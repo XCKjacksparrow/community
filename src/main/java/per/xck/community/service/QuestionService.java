@@ -125,11 +125,14 @@ public class QuestionService {
     }
 
     public void createOrUpdate(Question question) {
-        if(question.getId() == null){
-            question.setGmtCreate(System.currentTimeMillis());
-            question.setGmtModified(question.getGmtCreate());
-            questionMapper.insert(question);
-        }else{
+        try {
+            question.getId();
+            if (question.getId() == null){
+                question.setGmtCreate(System.currentTimeMillis());
+                question.setGmtModified(question.getGmtCreate());
+                questionMapper.insertSelective(question);
+                return;
+            }
             //更新
             Question updateQuestion = new Question();
             updateQuestion.setGmtModified(System.currentTimeMillis());
@@ -143,6 +146,10 @@ public class QuestionService {
             if (updated != 1){
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
+        }catch (NullPointerException e){
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtCreate());
+            questionMapper.insertSelective(question);
         }
     }
 
