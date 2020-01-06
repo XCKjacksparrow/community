@@ -37,7 +37,8 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code") String code,
                            @RequestParam(name="state")  String state,
-                           HttpServletResponse response) throws IOException {
+                           HttpServletResponse response,
+                           HttpServletRequest request) throws IOException {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
@@ -58,6 +59,7 @@ public class AuthorizeController {
             user.setAvatarUrl(githubUser.getAvatarUrl());
             userService.createOrUpdate(user);
             response.addCookie(new Cookie("token",token));
+            request.getSession().setAttribute("user",user);
             return "redirect:/";
         }else{
             // sign in failed

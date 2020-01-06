@@ -2,18 +2,17 @@ package per.xck.community.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import per.xck.community.dto.CommentDTO;
 import per.xck.community.dto.ResultDTO;
 import per.xck.community.mapper.CommentMapper;
 import per.xck.community.model.Comment;
+import per.xck.community.model.CommentExample;
 import per.xck.community.model.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -44,5 +43,30 @@ public class CommentController {
         Map<Object,Object> map = new HashMap<>();
         map.put("message","成功");
         return map;
+    }
+
+    @RequestMapping("/getComments/{QuestionId}")
+    @ResponseBody
+    public List<Comment> getComments(@PathVariable("QuestionId") Integer QuestionId){
+        CommentExample commentExample = new CommentExample();
+        commentExample.createCriteria()
+                .andParentIdEqualTo(Integer.toUnsignedLong(QuestionId));
+        List<Comment> comments = commentMapper.selectByExample(commentExample);
+        return comments;
+    }
+
+    @RequestMapping("/comment/insert")
+    @ResponseBody
+    public String insertComment(@RequestParam("text")String text){
+        Comment comment = new Comment();
+        comment.setContent(text);
+        comment.setType(1);
+        comment.setLikeCount(Integer.toUnsignedLong(0));
+        comment.setCommentator(1);
+        comment.setParentId(1L);
+        comment.setGmtCreate(System.currentTimeMillis());
+        comment.setGmtModified(comment.getGmtCreate());
+        commentMapper.insert(comment);
+        return "success";
     }
 }

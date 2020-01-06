@@ -3,7 +3,8 @@ body{
 }
 .main{
     background-color: white;
-    margin: 30px;
+    /*margin: 30px;*/
+    border-radius: 2em;
 }
 
 .btn-publish{
